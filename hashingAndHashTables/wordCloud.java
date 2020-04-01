@@ -5,8 +5,9 @@ class wordCloud{
 	public static Map<String, Integer> solution(String s){
 
 	/** Convert all characters to lowercase and return a string buffer **/
-		StringBuffer theString = new StringBuffer(s.toLowerCase());
-		Map<String, Integer> allCharacters = new HashMap<>();
+		//StringBuffer theString = new StringBuffer(s.toLowerCase());
+		StringBuffer theString = new StringBuffer(s);
+		Map<String, Integer> allWords = new HashMap<>();
 
 	/** Iterate through string buffer looking for words *****************/
 		for(int i=0, j=0; i < theString.length(); i = j+1){
@@ -28,19 +29,40 @@ class wordCloud{
 			if(j != i){
 				String word = theString.substring(i, j);
 
-				if(allCharacters.containsKey(word)){
-					int counter = allCharacters.get(word);
+			/** If word is present in hashmap in its current form **/
+				if(allWords.containsKey(word)){
+					int counter = allWords.get(word);
 					counter++;
-					allCharacters.replace(word, counter);
+					allWords.replace(word, counter);
+				}
+			/** If word is present in hashmap, but in capitalized form **/
+				else if(allWords.containsKey(capitalize(word))){
+					int counter = allWords.get(capitalize(word));
+					counter++;
+					allWords.put(word, counter);
+					allWords.remove(capitalize(word));
 				}
 
+			/** If word is present in hashmap, but in lowercase form **/
+				else if(allWords.containsKey(word.toLowerCase())){
+					int counter = allWords.get(word.toLowerCase());
+					counter++;
+					allWords.replace(word.toLowerCase(), counter);
+				}
+
+			/** If word is not present in hashmap **********************/
 				else
-					allCharacters.put(word, 1);
+					allWords.put(word, 1);
 			}
 		/***********************************************************/
 		}
-		return allCharacters;
+		return allWords;
 	}
+	/***********************************************************************/
+	/** Helper function to convers first letter to uppercase ***************/
+		public static String capitalize(String word){
+			return word.substring(0,1).toUpperCase()+word.substring(1);
+		}
 	/***********************************************************************/
 	public static void main(String[] args){
 
