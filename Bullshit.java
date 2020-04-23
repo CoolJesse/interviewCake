@@ -2,10 +2,25 @@ import java.util.Random;
 
 class Bullshit{
 
+	public static void main(String[] args){
+		System.out.println("1/2 = " + 1 / 2);
+
+		String s1= "baboon";
+		String s2= "ardvark";
+		String s3= "Ardvark";
+
+		System.out.println("Comparing ardvark to baboon: " + s2.compareToIgnoreCase(s1));
+		System.out.println("Comparing ardvark to ardvark: " + s2.compareToIgnoreCase(s2));
+		System.out.println("Comparing ardvark to Ardvark: " + s2.compareToIgnoreCase(s3));
+		System.out.println("Comparing baboon to ardvark: " + s1.compareToIgnoreCase(s2));
+	}
+
+
+/*
 	public static int getRandom(int floor, int ceiling){
 		Random rand = new Random();
 		//return new Random().nextInt(ceiling) + floor;
-		return rand.nextInt((ceiling - floor) + 0) + floor;		
+		return rand.nextInt((ceiling - floor) + 0) + floor;
 	}
 
 	public static void main(String[] arg){
@@ -17,6 +32,7 @@ class Bullshit{
 			//System.out.print( (rand.nextInt(12) + 0) + ", ");
 			System.out.print( getRandom(2, 15) + ", ");
 		}
+*/
 /*
 		char sample_1 = 'a';
 		char sample_2 = 'A';
@@ -36,6 +52,7 @@ class Bullshit{
 		System.out.println("Character " + sample_6 + " is a letter: " + Character.isLetter(sample_6));
 		System.out.println("Character " + sample_7 + " is a letter: " + Character.isLetter(sample_7));
 		System.out.println("Character " + sample_8 + " is a letter: " + Character.isLetter(sample_8));
-	*/
+
 	}
+*/
 }
