@@ -1,8 +1,18 @@
 import java.util.Random;
+import java.util.Arrays;
 
 class Bullshit{
 
 	public static void main(String[] args){
+
+		String[] names = new String[]{"Sasquatch", "El Chupacabra", "Yetti"};
+		System.out.println(Arrays.toString(names) + " length: " + names.length);
+		String[] newNames = Arrays.copyOf(names, names.length+1);
+		newNames[newNames.length-1] = "The Mummy";
+		System.out.println(Arrays.toString(newNames) + " length: " + newNames.length);
+		System.out.println(names[names.length-1]);
+
+		/*
 		System.out.println("1/2 = " + 1 / 2);
 
 		String s1= "baboon";
@@ -13,6 +23,8 @@ class Bullshit{
 		System.out.println("Comparing ardvark to ardvark: " + s2.compareToIgnoreCase(s2));
 		System.out.println("Comparing ardvark to Ardvark: " + s2.compareToIgnoreCase(s3));
 		System.out.println("Comparing baboon to ardvark: " + s1.compareToIgnoreCase(s2));
+
+		*/
 	}
 
 

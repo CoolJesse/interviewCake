@@ -91,26 +91,28 @@ public class graphColoring{
 		for (GraphNode node : graph) {
 			Set<GraphNode> neighbors = node.getNeighbors();
 
-		if(neighbors.contains(node)) {
-		   throw new IllegalArgumentException(String.format(
-		   "Legal coloring impossible for node with loop: %s", node.getLabel()));
-	   }
+			if(neighbors.contains(node)) {
+		   		throw new IllegalArgumentException(String.format(
+		   		"Legal coloring impossible for node with loop: %s", node.getLabel()));
+	   		}
 
-	   // get the node's neighbors' colors, as a set so we
-	   // can check if a color is illegal in constant time
-	   Set<String> illegalColors = new HashSet<>();
-	   for (GraphNode neighbor : neighbors) {
-		   if (neighbor.hasColor()) {
-			   illegalColors.add(neighbor.getColor());
+		   // get the node's neighbors' colors, as a set so we
+		   // can check if a color is illegal in constant time
+		   Set<String> illegalColors = new HashSet<>();
+		   
+		   for (GraphNode neighbor : neighbors) {
+			   if (neighbor.hasColor()) {
+				   illegalColors.add(neighbor.getColor());
+			   }
 		   }
-	   }
 
-	   // assign the first legal color
-	   for (String color : colors) {
-		   if (!illegalColors.contains(color)) {
-			   node.setColor(color);
-			   break;
-		   }
-	   }
-   }
+		   // assign the first legal color
+		   for (String color : colors) {
+			   if (!illegalColors.contains(color)) {
+				   node.setColor(color);
+				   break;
+			   }
+		   	}
+   		}
+	}
 }
