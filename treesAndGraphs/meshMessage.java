@@ -1,11 +1,11 @@
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Queue;
+import java.util.HashMap;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.Collections;
 
 /*
 import org.junit.Test;
@@ -26,36 +26,34 @@ public class meshMessage{
 
     // Test to make sure both origin and destination are present in graph //
         if(!graph.containsKey(startNode))
-            throw new RuntimeException("startNode not present");
+            throw new IllegalArgumentException("startNode not present");
         if(!graph.containsKey(endNode))
-            throw new RuntimeException("endNode not present");
+            throw new IllegalArgumentException("endNode not present");
 
     // If startNode and end node are the same node //
         if(startNode.equals(endNode))
             return new String[]{startNode};
 
-    // To avoid cycles we add names visited to hashset //
-        Set<String> illegalNames = new HashSet<>();
-        illegalNames.add(startNode);
+    // To avoid cycles and reconstruct path we add names visited to hashmap //
+		Map<String, String> path = new HashMap<>();
+		path.put(startNode, null);
 
-        Queue<String[]> q = new LinkedList<>();
-        q.add(new String[]{startNode});
+        Deque<String> q = new ArrayDeque<>();
+        //q.addLast(new String[]{startNode});
+        q.addLast(startNode);
 
-        while(q.size() > 0){
-            String[] people = q.poll();
-		// Check to see if last name in list is the the endNode //
-            if(people[people.length-1].equals(endNode))
-				return people;
+		while(!q.isEmpty()){
+			String person = q.removeFirst();
+			if(person.equals(endNode))
+				return reconstructPath(path, startNode, endNode);
 
-            for(String name : graph.get(people[people.length-1])){
-                if(!illegalNames.contains(name)){
-					String[] newPeople = Arrays.copyOf(people, people.length+1);
-					newPeople[newPeople.length-1] = name;
-                    q.add(newPeople);
-                    illegalNames.add(name);
-                }
-            }
-        }
+			for(String neighbor : graph.get(person)){
+				if(!path.containsKey(neighbor)){
+					q.add(neighbor);
+					path.put(neighbor, person);
+				}
+			}
+		}
 
         return null;
     }
@@ -67,6 +65,23 @@ public class meshMessage{
         }
         return false;
     }
+/****** Function to back track and recontruct path from start to finish *******/
+public static String[] reconstructPath(Map<String, String> howWeReachedNodes,
+    String startNode, String endNode) {
+
+    List<String> shortestPath = new ArrayList<>();
+
+    // start from the end of the path and work backwards
+    String currentNode = endNode;
+
+    while (currentNode != null) {
+        shortestPath.add(currentNode);
+        currentNode = howWeReachedNodes.get(currentNode);
+    }
+
+	Collections.reverse(shortestPath);
+    return shortestPath.toArray(new String[shortestPath.size()]);
+}
 
 /***********************************************************************************************/
 /********************************************* TESTS *******************************************/
