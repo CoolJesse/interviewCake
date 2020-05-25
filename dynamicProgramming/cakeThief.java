@@ -44,12 +44,8 @@ public class cakeThief {
     }
 */
 /**************************** Recursive Solution ******************************/
+/*
     public static long maxDuffelBagValue(CakeType[] cakeTypes, int weightCapacity){
-
-		return maxDuffelBagValue(cakeTypes, weightCapacity, new int[weightCapacity + 1]);
-	}
-
-    public static long maxDuffelBagValue(CakeType[] cakeTypes, int weightCapacity, int[] record){
 
 		if(weightCapacity <= 0)
 			return 0;
@@ -69,6 +65,39 @@ public class cakeThief {
 				}
 			}
 		}
+		return maxValue;
+	}
+*/
+/****************************** Recursion with memoization  **********************/
+    public static long maxDuffelBagValue(CakeType[] cakeTypes, int weightCapacity){
+
+		long[] maxValues = new long[weightCapacity + 1];
+
+		return maxDuffelBagValue(cakeTypes, weightCapacity, maxValues);
+	}
+
+    public static long maxDuffelBagValue(CakeType[] cakeTypes, int weightCapacity, long[] record){
+
+		if(weightCapacity <= 0)
+			return 0;
+
+		if(record[weightCapacity] != 0)
+			return record[weightCapacity];
+
+		long maxValue = maxDuffelBagValue(cakeTypes, weightCapacity - 1, record);
+
+		for(CakeType thisCake : cakeTypes){
+
+			if(thisCake.weight <= weightCapacity){
+				if(thisCake.weight == 0){
+					if(thisCake.value != 0)
+						throw new RuntimeException("Zero weight but not zero value!");
+				}
+				else
+					maxValue = Math.max(maxValue, maxDuffelBagValue(cakeTypes, weightCapacity - thisCake.weight) + thisCake.value);
+			}
+		}
+		record[weightCapacity] = maxValue;
 		return maxValue;
 	}
 
